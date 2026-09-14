@@ -5,18 +5,15 @@ Two install styles ([per the plugin docs](https://opencode.ai/docs/plugins/)):
 
 ## Option A — global (recommended)
 
+No clone, no build — grab the prebuilt file from the release:
+
 ```bash
-# 1. Build the single-file bundle
-git clone https://github.com/anderson-cubo/opencode-browser-flow.git
-cd opencode-browser-flow
-bun install          # also fetches puppeteer's Chrome for Testing fallback
-bun run build        # → dist/browser-flow-plugin.js
-
-# 2. Copy the bundle into the global plugin dir
+# 1. Download the prebuilt plugin file
 mkdir -p ~/.config/opencode/plugins
-cp dist/browser-flow-plugin.js ~/.config/opencode/plugins/
+curl -L -o ~/.config/opencode/plugins/browser-flow-plugin.js \
+  https://github.com/anderson-cubo/opencode-browser-flow/releases/latest/download/browser-flow-plugin.js
 
-# 3. Make its runtime deps resolvable (opencode runs `bun install` here at startup)
+# 2. Make its runtime deps resolvable (opencode runs `bun install` here at startup)
 #    ~/.config/opencode/package.json:
 #    {
 #      "dependencies": {
@@ -25,13 +22,13 @@ cp dist/browser-flow-plugin.js ~/.config/opencode/plugins/
 #      }
 #    }
 
-# 4. Allow the tool without prompting (~/.config/opencode/opencode.json):
+# 3. Allow the tool without prompting (~/.config/opencode/opencode.json):
 #    {
 #      "$schema": "https://opencode.ai/config.json",
 #      "permission": { "browser": "allow" }
 #    }
 
-# 5. Optional: the /browser slash command everywhere
+# 4. Optional: the /browser slash command everywhere
 mkdir -p ~/.config/opencode/commands
 cp commands/browser.md ~/.config/opencode/commands/
 ```
@@ -64,15 +61,27 @@ Minimal `package.json` for the config dir (`~/.config/opencode/package.json`):
 
 ## Option B — project-local
 
-Same files, but inside your project (don't do both — the tool would register twice):
+Same file, but inside your project (don't do both — the tool would register twice):
 
 ```bash
-bun run build
 mkdir -p .opencode/plugins .opencode/commands
-cp dist/browser-flow-plugin.js .opencode/plugins/
-cp commands/browser.md .opencode/commands/
+curl -L -o .opencode/plugins/browser-flow-plugin.js \
+  https://github.com/anderson-cubo/opencode-browser-flow/releases/latest/download/browser-flow-plugin.js
+cp commands/browser.md .opencode/commands/   # if you cloned the repo, else skip
 # .opencode/package.json needs @opencode-ai/plugin (+ puppeteer for the fallback)
 # opencode.json (project root) needs "permission": { "browser": "allow" }
+```
+
+## Option C — build from source
+
+Only needed if you're hacking on the plugin itself:
+
+```bash
+git clone https://github.com/anderson-cubo/opencode-browser-flow.git
+cd opencode-browser-flow
+bun install          # also fetches puppeteer's Chrome for Testing fallback
+bun run build        # → dist/browser-flow-plugin.js
+cp dist/browser-flow-plugin.js ~/.config/opencode/plugins/
 ```
 
 ## Verify

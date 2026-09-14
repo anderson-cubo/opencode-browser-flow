@@ -145,13 +145,14 @@ paths into drag events — use `upload` for file inputs instead).
 
 ## Install
 
-Build the single-file bundle first (`bun run build` → `dist/`), then copy it:
+Download the prebuilt file from the
+[latest release](https://github.com/anderson-cubo/opencode-browser-flow/releases/latest)
+(no clone/build needed):
 
 ```bash
-bun install          # also fetches puppeteer's Chrome for Testing
-bun run build
 mkdir -p ~/.config/opencode/plugins
-cp dist/browser-flow-plugin.js ~/.config/opencode/plugins/
+curl -L -o ~/.config/opencode/plugins/browser-flow-plugin.js \
+  https://github.com/anderson-cubo/opencode-browser-flow/releases/latest/download/browser-flow-plugin.js
 ```
 
 (Project-local install works the same with `.opencode/plugins/`, but the
