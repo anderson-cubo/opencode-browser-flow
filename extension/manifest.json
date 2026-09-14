@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "opencode browser companion",
+  "version": "0.1.0",
+  "description": "Always-visible toolbar + element picker that feeds the opencode browser-flow plugin. Survives every navigation (route changes, link clicks, reloads).",
+  "permissions": ["sidePanel", "storage", "tabs", "scripting"],
+  "host_permissions": ["http://*/*", "https://*/*", "file:///*", "http://127.0.0.1:39173/*", "http://localhost:39173/*"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "default_title": "Open opencode browser panel"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "file:///*"],
+      "js": ["injector.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["toolbar.js"],
+      "matches": ["http://*/*", "https://*/*", "file:///*"]
+    }
+  ]
+}

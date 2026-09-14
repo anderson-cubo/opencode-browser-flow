@@ -1,0 +1,25 @@
+{
+  "name": "opencode-browser-flow-plugin",
+  "version": "0.0.1",
+  "description": "browser flow — opencode plugin: visible Chromium over raw CDP + always-visible overlay (select/resize) + flow watcher that records to a tmp folder and returns a chat-ready transcript. Chrome fallback via full puppeteer.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "bun build ./browser-flow-plugin.ts --external @opencode-ai/plugin --external puppeteer --outfile ./dist/browser-flow-plugin.js --target bun",
+    "build:extension": "rm -rf extension/dist && mkdir -p extension/dist && bun build extension/sidepanel.tsx --outdir extension/dist --target browser --format esm && cp extension/dist/sidepanel.js extension/sidepanel.js && cp extension/dist/sidepanel.css extension/sidepanel.css",
+    "build:all": "bun run build && bun run build:extension",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "latest",
+    "puppeteer": "^24.0.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/bun": "latest",
+    "@types/node": "^22.0.0"
+  }
+}
